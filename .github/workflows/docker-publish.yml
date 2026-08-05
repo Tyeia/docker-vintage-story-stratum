@@ -69,8 +69,7 @@ jobs:
           tags: |
             # set latest tag for default branch
             type=raw,value=latest,enable={{is_default_branch}}
-            # Add date versioned branches
-            type=raw,value=${date 'YYYYMMDD'},enable{{is_default_branch}}
+            # Add SHA versioned images as well
             type=sha
 
       # Build and push Docker image with Buildx (don't push on PR)
