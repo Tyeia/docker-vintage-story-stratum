@@ -27,7 +27,11 @@ resolve_pinned_tag() {
   return 1
 }
 
-CUR_V="$(find ${DATA_DIR} -name 'installed-*' | cut -d '-' -f2-)"
+# -printf '%f' gives just the filename, not the full path -- find prints the
+# full path by default, so cutting on '-' would also cut on any hyphens in
+# DATA_DIR itself (e.g. a folder named "docker-vintage-story-stratum").
+CUR_MARKER="$(find ${DATA_DIR} -maxdepth 1 -name 'installed-*' -printf '%f\n' | head -n1)"
+CUR_V="${CUR_MARKER#installed-}"
 if [ ! -z "${STATIC_V}" ] && [ "${CUR_V#${STATIC_V}-stratum.}" != "${CUR_V}" ]; then
   echo "---Static version: ${STATIC_V} locally found (${CUR_V})!---"
   LAT_V="${CUR_V}"
@@ -96,6 +100,7 @@ elif [ "${LAT_V}" == "${CUR_V}" ]; then
 fi
 
 echo "---Preparing Server---"
+DATA_PERM="${DATA_PERM:-755}"
 chmod -R ${DATA_PERM} ${DATA_DIR}
 echo "---Checking for old logs---"
 find ${DATA_DIR} -name "masterLog.*" -exec rm -f {} \;
