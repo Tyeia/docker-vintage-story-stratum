@@ -26,10 +26,10 @@ chown -R ${UID}:${GID} ${DATA_DIR}
 
 echo "---Starting...---"
 term_handler() {
-    if [ -f "${DATA_DIR}/VintagestoryServer.exe" ]; then
+    if [ -f "${DATA_DIR}/StratumServer.exe" ]; then
       killpid="$(pidof mono)"
-    elif [ -f "${DATA_DIR}/VintagestoryServer" ]; then
-      killpid="$(pidof VintagestoryServer)"
+    elif [ -f "${DATA_DIR}/StratumServer" ]; then
+      killpid="$(pidof StratumServer)"
     fi
 	su $USER -c "screen -S VintageStory -X stuff '/stop^M'" >/dev/null
 	tail --pid=$killpid -f /dev/null
