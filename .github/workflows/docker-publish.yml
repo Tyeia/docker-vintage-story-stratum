@@ -67,7 +67,7 @@ jobs:
           
       - name: Lowercase image name
         id: to-lowercase
-        run: ${env.IMAGE_NAME}=${env.IMAGE_NAME,,}
+        run: bash -c "${env.IMAGE_NAME}=${env.IMAGE_NAME@L}"
         
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
